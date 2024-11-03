@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d0tomfa585wda"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 403.0
+offset_top = 180.0
+offset_right = 533.0
+offset_bottom = 277.0
+text = "spendor"
