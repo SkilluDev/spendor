@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://bilfi43jrayxv"]
+
+[ext_resource type="Script" path="res://phouse.gd" id="1_7vwr8"]
+[ext_resource type="Texture2D" uid="uid://34f2qptwc2gh" path="res://art/playerGrey_walk1.png" id="1_nxm74"]
+[ext_resource type="Texture2D" uid="uid://qytjflmmcho0" path="res://art/playerGrey_walk2.png" id="2_potfc"]
+[ext_resource type="Texture2D" uid="uid://bmki2ey0u3et4" path="res://art/enemyWalking_1.png" id="4_rgogl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qyd17"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_potfc")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nxm74")
+}],
+"loop": true,
+"name": &"stand",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vnlkr"]
+height = 26.4
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_unyox"]
+a = Vector2(0, 575)
+
+[node name="phouse" type="Area2D"]
+script = ExtResource("1_7vwr8")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qyd17")
+animation = &"stand"
+autoplay = "stand"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+scale = Vector2(5, 5)
+shape = SubResource("CapsuleShape2D_vnlkr")
+
+[node name="laser" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="laser"]
+position = Vector2(-1, 261)
+rotation = 1.57079
+scale = Vector2(5, 0.125)
+texture = ExtResource("4_rgogl")
+
+[node name="lascol" type="CollisionShape2D" parent="laser"]
+shape = SubResource("SegmentShape2D_unyox")
+disabled = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

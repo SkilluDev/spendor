@@ -1,11 +1,41 @@
-[gd_scene format=3 uid="uid://d0tomfa585wda"]
+[gd_scene load_steps=5 format=3 uid="uid://d0tomfa585wda"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://main.gd" id="1_e0aqj"]
+[ext_resource type="PackedScene" uid="uid://bilfi43jrayxv" path="res://phouse.tscn" id="1_kupcq"]
+[ext_resource type="PackedScene" uid="uid://b1ap64ml04yjc" path="res://mob.tscn" id="2_lj767"]
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 403.0
-offset_top = 180.0
-offset_right = 533.0
-offset_bottom = 277.0
-text = "spendor 2 electric boogaloo
-micahl wuz here"
+[sub_resource type="Curve2D" id="Curve2D_3d3hc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 104)
+}
+point_count = 4
+
+[node name="Main" type="Node"]
+script = ExtResource("1_e0aqj")
+mob_scene = ExtResource("2_lj767")
+
+[node name="phouse" parent="." instance=ExtResource("1_kupcq")]
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPos" type="Marker2D" parent="."]
+position = Vector2(550, 550)
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_3d3hc")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(0, 104)
+rotation = -1.5708
+
+[connection signal="hit" from="phouse" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
